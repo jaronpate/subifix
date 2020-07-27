@@ -1,0 +1,26 @@
+<%- include("../partials/header.ejs") -%>
+<%- include("../partials/dashboard.ejs") -%>
+        
+   <form class="ui large form" action="/dashboard/reset" method="POST">
+      <h1>Root Admin Reset</h1>
+      <div class="field">
+         <div class="ui input transparent login-input">
+            <input type="password" name="password" placeholder="Root Password">
+         </div>
+      </div>
+      <button class="ui button" id="login-btn" type="submit">Reset</button>
+   </form>
+   <style>
+      form{
+         margin: 15px;
+         text-align: center;
+         height: 80vh;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column;
+      }
+   </style>
+
+</body>
+</html>

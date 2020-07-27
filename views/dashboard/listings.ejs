@@ -1,0 +1,92 @@
+<%- include("../partials/header.ejs") -%>
+<%- include("../partials/dashboard.ejs") -%>
+ 
+<div class="dashboard">
+
+   <div class="control">
+      <table class="ui table">
+         <thead>
+           <tr>
+             <th>Year</th>
+             <th>Model</th>
+             <th>Price</th>
+             <th>Created</th>
+             <th>Description</th>
+             <th>Actions</th>
+           </tr>
+         </thead>
+         <tbody>
+            <% listings.forEach(listing => { %>
+           <tr>
+             <td class="one wide"><%- listing.year -%></td>
+             <td class="two wide"><%- listing.model -%></td>
+             <td class="one wide"><%- listing.price -%></td>
+             <td class="two wide"><span id="timestamp"><%- listing.createdAt -%></span></td>
+             <td class="six wide" style="word-break: break-all;"><%- listing.description.substring(0,40) + '...' -%></td>
+             <td class="four wide">
+               <a href="/dashboard/listings/<%- listing._id -%>" class="ui button" style="margin-bottom: 5px;">
+                  Edit
+               </a>
+               <form action="/dashboard/listings/<%-listing._id-%>?_method=DELETE" method="POST" style="display: inline;">
+                  <button class="ui negative button" type="submit">Delete</button>
+               </form>
+             </td>
+           </tr>
+           <% }) %>
+         </tbody>
+       </table>
+   </div>
+
+   <div class="control" id="control">
+      <form class="ui form" style="margin-bottom: 0;" enctype="multipart/form-data" action="/dashboard/listings/new" method="POST">
+         <h4 class="ui dividing header">Listing Info</h4>
+         <div class="fields">
+            <div class="four wide field">
+               <label>Year</label>
+               <input type="number" name="year" placeholder="Year">
+            </div>
+            <div class="ten wide field">
+               <label>Make/Model</label>
+               <input type="text" name="model" placeholder="Model">
+            </div>
+            <div class="four wide field">
+               <label>Price</label>
+               <input type="number" name="price" placeholder="Price">
+            </div>
+         </div>
+         <div class="field">
+         <label>Description</label>
+         <textarea type="text" name="description" placeholder="Description" rows="10"></textarea>
+         </div>
+         <h4 class="ui dividing header">Images</h4>
+         <input type="file" name="images" id="file-input" multiple style="margin-bottom: 15px;">
+         
+         <button class="ui positive button" type="submit">Create</button>
+      </form>
+   </div>   
+</div>
+
+<style>
+   .dashboard{
+      /* margin-left: 250px; */
+      padding: 15px;
+      width: 90%;
+      margin: auto;
+   }
+   .control{
+      padding: 15px;
+      background-color: white;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.8);
+   }
+</style>
+
+<script>
+   document.querySelectorAll("#timestamp").forEach(el => {
+      let time = new Date(el.innerHTML);
+      el.innerHTML = time.toLocaleString()
+   })
+</script>
+</body>
+</html>

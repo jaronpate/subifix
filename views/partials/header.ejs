@@ -1,0 +1,43 @@
+<%- include("./head.ejs") %>
+<body>
+   <div class="ui top fixed secondary menu custom" id="header">
+      <a class="item" id="logo" href="/">
+         <img src="/assets/branding/logo.svg">
+      </a>
+      <a class="item" href="/listings">Listings</a>
+      <a class="item" href="/contact">Contact</a>
+      <div class="right menu">
+         <% if(typeof user !== ("undefined")){ %>
+            <div class="item" style="background: none !important;">
+               <div class="ui dropdown">
+                  <div class="ui dropdown" id="user-dropdown">
+                     <span><%-user.username ? user.username : user.email-%></span>
+                     <i class="dropdown icon" style="margin-left: 5px !important; vertical-align: middle;"></i>
+                     <div class="menu" style="margin-top: 5px;">
+                        <% if(user.admin){ %>
+                           <a class="item" id="user-item" onclick="location.href='/dashboard'"><i class="toggle on icon"></i>Dashboard</a>
+                        <% } %>
+                        <!-- <div class="item"><i class="cog icon"></i>Settings</div> -->
+                        <a class="item" id="user-item" onclick="location.href='/logout'" style="color: #d32f2f !important;"><i class="sign out alternate icon"></i>Logout</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         <% } else { %>
+            <a class="item" href="/login">Sign in</a>
+            <a class="item" href="/register">Register</a>
+         <% } %>
+      </div>
+   </div>
+   <style>
+      @media only screen and (max-width: 750px) {
+         #logo img{
+            width: 4.5em;
+         }
+      }
+   </style>
+   <script>
+      $('.ui.dropdown')
+      .dropdown();
+   </script>
+   

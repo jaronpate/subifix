@@ -1,0 +1,87 @@
+<%- include("../partials/header.ejs") -%>
+<%- include("../partials/dashboard.ejs") -%>
+<div class="dashboard">
+   <div class="control" id="control">
+      <a class="ui tiny button" href="/dashboard/listings" style="margin-bottom: 10px;"><i class="arrow left icon"></i> Back</a>
+      <form class="ui form" style="margin-bottom: 0;" enctype="multipart/form-data" action="/dashboard/listings/<%-listing._id-%>?_method=PUT" method="POST">
+         <h4 class="ui dividing header">Listing Info</h4>
+         <div class="fields">
+            <div class="four wide field">
+               <label>Year</label>
+               <input type="number" name="year" placeholder="Year" value="<%-listing.year-%>">
+            </div>
+            <div class="ten wide field">
+               <label>Model</label>
+               <input type="text" name="model" placeholder="Model" value="<%-listing.model-%>">
+            </div>
+            <div class="four wide field">
+               <label>Price</label>
+               <input type="number" name="price" placeholder="Price" value="<%-listing.price-%>">
+            </div>
+         </div>
+         <div class="field">
+         <label>Description</label>
+         <textarea type="text" name="description" placeholder="Description" rows="10"><%-listing.description-%></textarea>
+         </div>
+         <button class="ui positive button" type="submit">Save</button>
+      </form>
+      <form action="/dashboard/listings/<%-listing._id-%>?_method=DELETE" method="POST" style="margin-top: 5px;">
+         <button class="ui negative button" type="submit">Delete</button>
+      </form>
+      <h4 class="ui dividing header">Images</h4>
+      <div class="main-gallery">
+         <% listing.images.forEach(image => { %>
+
+         <div class="gallery-cell">
+            <img src="<%-image.Location-%>" alt="">
+         </div>
+
+         <% }) %>
+      </div>
+   </div>
+</div>
+<style>
+   .dashboard{
+      /* margin-left: 250px; */
+      padding: 15px;
+      width: 90%;
+      margin: auto;
+   }
+   .control{
+      padding: 15px;
+      background-color: white;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.8);
+   }
+   .main-gallery{
+      max-height: 350px;
+      margin-bottom: 25px;
+   }
+   .gallery-cell{
+      margin: auto 10px;
+      max-height: 350px;
+   }
+   .gallery-cell img{
+      border-radius: 10px;
+      max-height: 350px;
+   }
+</style>
+<script>
+   document.querySelectorAll("#timestamp").forEach(el => {
+      let time = new Date(el.innerHTML);
+      el.innerHTML = time.toLocaleString()
+   })
+   var flkty = new Flickity( '.main-gallery', {
+      cellAlign: 'center',
+      pauseAutoPlayOnHover: false,
+      prevNextButtons: false,
+      imagesLoaded: true,
+      // wrapAround: true,
+      draggable: true,
+      autoPlay: 5000,
+      contain: true
+   });
+</script>
+</body>
+</html>

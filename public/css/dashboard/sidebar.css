@@ -1,0 +1,22 @@
+body{
+   /* overflow: hidden; */
+}
+
+.sidebar{
+   display: flex;
+   justify-content: center;
+   width: 250px;
+   height: 100vh;
+   z-index: 1;
+   background-color: white;
+   /* box-shadow: 2px 0px 3px -2px rgba(0, 0, 0, 0.25); */
+   position: absolute !important;
+}
+
+.sidebar .item{
+   margin-bottom: 7px !important;
+}
+
+#sidebar-menu{
+   margin-top: 20px;
+}

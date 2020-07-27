@@ -1,0 +1,56 @@
+<%- include("../partials/head.ejs") %>
+
+<body>
+   <div class="row" style="height: 100vh;">
+      <div class="five columns left-login">
+         <img src="/assets/branding/logo.svg" alt="">
+      </div>
+      <div class="seven columns right-login">
+         <div style="width: 90%;" id="right-login-div"> 
+            <% if (locals.message.error) { %> 
+               <div class="ui warning message">
+                  <i class="close icon"></i>
+                  <div class="header">
+                     Error logging in, please try again.
+                  </div>
+                  <%- locals.message.error -%>
+                </div>
+            <% } %>
+            <h1>Login</h1>
+            <form class="ui large form" action="/login" method="POST">
+               <div class="field">
+               <div class="ui input transparent login-input">
+                  <input type="text" name="username">
+                  <span data-placeholder="Username"></span>
+               </div>
+               </div>
+               <div class="field">
+                  <div class="ui input transparent login-input">
+                     <input type="password" name="password">
+                     <span data-placeholder="Password"></span>
+                  </div>
+               </div>
+               <button class="ui button" id="login-btn" type="submit">Login</button>
+               <p>Don't have an account? <a href="/register">Register here.</a></p>
+            </form>
+         </div>
+      </div>
+   </div>
+</body>
+<script>
+   $('.ui.checkbox')
+   .checkbox();
+   $('.login-input input').on('focus', function(){
+      $(this).addClass('focus')
+   });
+   $('.login-input input').on('blur', function(){
+      if($(this).val() == '') $(this).removeClass('focus')
+   });
+   $('.message .close')
+  .on('click', function() {
+    $(this)
+      .closest('.message')
+      .transition('fade');
+   });
+</script>
+</html>

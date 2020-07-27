@@ -1,0 +1,11 @@
+body{ 
+   background-color: #f2f5f9;
+}
+
+.listings{
+   background-color: white;
+   border-radius: 15px;
+   width: 90%;
+   margin: 15px auto;
+   padding: 20px 25px;
+}

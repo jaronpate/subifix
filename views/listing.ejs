@@ -1,0 +1,65 @@
+<%- include("./partials/header.ejs") -%>
+<body>
+   <div class="listing">
+      <h1><%-listing.year-%> <%-listing.model-%></h1>
+      <div class="main-gallery">
+         <% listing.images.forEach(image => { %>
+
+         <div class="gallery-cell">
+            <img src="<%-image.Location-%>" alt="">
+         </div>
+
+         <% }) %>
+      </div>
+      <div class="info">
+         <p>$<%-listing.price-%> - </p>
+         <p id="timestamp"><%-listing.createdAt-%></p>
+      </div>
+      <div class="description">
+         <p><%-listing.description-%></p>
+      </div>
+   </div>
+<script>
+   function timeSince(date) {
+      var seconds = Math.floor((new Date() - date) / 1000);
+
+      var interval = Math.floor(seconds / 31536000);
+
+      if (interval > 1) {
+      return interval + " years";
+      }
+      interval = Math.floor(seconds / 2592000);
+      if (interval > 1) {
+      return interval + " months";
+      }
+      interval = Math.floor(seconds / 86400);
+      if (interval > 1) {
+      return interval + " days";
+      }
+      interval = Math.floor(seconds / 3600);
+      if (interval > 1) {
+      return interval + " hours";
+      }
+      interval = Math.floor(seconds / 60);
+      if (interval > 1) {
+      return interval + " minutes";
+      }
+      return Math.floor(seconds) + " seconds";
+   }
+   document.querySelectorAll("#timestamp").forEach(el => {
+      let time = new Date(el.innerHTML);
+      el.innerHTML = 'Posted ' + timeSince(time) + ' ago'
+   })
+   var flkty = new Flickity( '.main-gallery', {
+      cellAlign: 'center',
+      pauseAutoPlayOnHover: false,
+      prevNextButtons: false,
+      imagesLoaded: true,
+      wrapAround: true,
+      draggable: true,
+      autoPlay: 5000,
+      contain: true
+   });
+</script>
+</body>
+</html>
