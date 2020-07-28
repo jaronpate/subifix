@@ -79,7 +79,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.get('/', (req, res) => {
-   res.redirect('/dashboard/listings');
+   res.redirect('/listings');
 });
 
 app.get('/listings', (req, res) => {
