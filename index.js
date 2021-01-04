@@ -73,7 +73,7 @@ app.use(passport.session());
 app.use((req, res, next) => { res.locals.message = req.flash(); next(); })
 
 const LocalStrategy = require('passport-local').Strategy
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy({usernameField: "email"}, User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -193,11 +193,10 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-   User.register({username:req.body.username}, req.body.password, function(err, user) {
+   User.register({email : req.body.email}, req.body.password, function(err, user) {
       if (err) {return res.redirect('/')}
-      var authenticate = User.authenticate();
-      authenticate(req.body.username, req.body.password, function(err, result) {
-        if (err) {return res.redirect('/')}
+      User.authenticate(req.body.email, req.body.password, function(err, result) {
+        if (err) {console.log(err)}
         if (req.session.returnTo) {return req.redirect(req.session.returnTo)}
         else {res.redirect('/')}
       });

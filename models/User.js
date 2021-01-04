@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   admin: {type: Boolean, default: false}
 }, { timestamps: true });
 
-userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(passportLocalMongoose, {usernameField: "email"});
 
 const User = mongoose.model('User', userSchema);
 
