@@ -14,7 +14,7 @@ const express = require('express'),
       path = require('path');
 
 dotenv.config();
-
+mongoose.set('useFindAndModify', false);
 
 // ===
 // AWS
@@ -74,7 +74,7 @@ app.use(passport.session());
 app.use((req, res, next) => { res.locals.message = req.flash(); next(); })
 
 const LocalStrategy = require('passport-local').Strategy
-passport.use(new LocalStrategy({usernameField: "email"}, User.authenticate()));
+passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -203,9 +203,12 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-   User.register({email : req.body.email}, req.body.password, function(err, user) {
-      if (err) {return res.redirect('/')}
-      User.authenticate(req.body.email, req.body.password, function(err, result) {
+   User.register({username: req.body.username}, req.body.password, function(err, user) {
+      if (err) {
+         req.flash("error", err.message)
+         return res.redirect('/register')
+      }
+      User.authenticate(req.body.username, req.body.password, function(err, result) {
         if (err) {console.log(err)}
         if (req.session.returnTo) {return req.redirect(req.session.returnTo)}
         else {res.redirect('/')}
