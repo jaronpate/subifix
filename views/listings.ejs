@@ -2,6 +2,9 @@
 <body>
    <div class="listings">
       <div class="ui items">
+         <% if(listings.length === 0){ %>
+            <p style="text-align: center; font-weight: bold;">Sorry :( there aren't any listings right now. Check back soon!</p>
+         <% } %>
          <% listings.forEach(listing => { %>
 
          <div class="item">
@@ -9,9 +12,11 @@
              <img src="<%-listing.images[0].Location-%>">
            </a>
            <div class="content">
-             <a class="header" href="/listings/<%-listing._id-%>"><%-`${listing.year} ${listing.model}`-%></a>
+             <a class="header" href="/listings/<%-listing._id-%>"><%-`${listing.year} ${listing.model} ${listing.title}`-%></a>
              <div class="meta">
-               <span>$<%-listing.price-%></span>
+               <span style="margin-right: 0;">$<%-listing.price-%></span>
+               &bull;
+               <span><%-listing.miles-%> miles</span>
              </div>
              <div class="description">
                <p><%-listing.description-%></p>

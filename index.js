@@ -8,6 +8,7 @@ const express = require('express'),
       flash = require('connect-flash'),
       User = require('./models/User'),
       Listing = require('./models/Listing'),
+      Quote = require('./models/Quote'),
       AWS = require('aws-sdk'),
       fileupload = require('express-fileupload'),
       path = require('path');
@@ -79,7 +80,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.get('/', (req, res) => {
-   res.redirect('/listings');
+   res.render('index', {css: "index", title: "Home", user: req.user ? req.user : undefined});
 });
 
 app.get('/listings', (req, res) => {
@@ -145,8 +146,17 @@ app.get('/dashboard/listings', loggedIn, isAdmin, (req, res) => {
    Listing.find({}, (err, listings) => {
       if(err){return res.redirect('/')}
       res.render('dashboard/listings', {css: "dashboard/index", title: "Dashboard", page: 'listings', listings: listings,  user: req.user});
-   })
+   });
 });
+
+app.post("/quotes/new", (req, res) => {
+   Quote.create(req.body, (err, newQuote) => {
+      if(err){return res.redirect('/')}
+      console.log(newQuote)
+      req.flash("form", "success")
+      res.redirect('/')
+   })
+})
 
 app.post('/dashboard/listings/new', loggedIn, isAdmin, async (req, res) => {
    let images = [];

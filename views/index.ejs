@@ -1,0 +1,120 @@
+<%- include("./partials/header.ejs") -%>
+<body>
+    <div class="jumbo">
+        <div class="head">
+            <img src="/assets/branding/logo_color.svg" alt="">
+            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit condimentum.</h3>
+            <a class="action" href="/listings">See Listings</a>
+        </div>
+        <div class="form">
+            <form class="ui form" action="/quotes/new" method="POST" style="margin: 10px 0;">
+                <h2 class="ui header" style="margin-bottom: 5px;">Get A Quote</h2>
+                <p style="margin-top: 0;">Get in touch with us about what you might need!</p>
+                <div class="field">
+                    <label>Name</label>
+                    <div class="two fields">
+                      <div class="field">
+                        <input type="text" name="firstname" placeholder="First Name">
+                      </div>
+                      <div class="field">
+                        <input type="text" name="lastname" placeholder="Last Name">
+                      </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="joe@schmoe.com">
+                </div>
+                <div class="field">
+                    <label>Phone</label>
+                    <input type="tel" name="tel" placeholder="6151234567">
+                </div>
+                <div class="field">
+                    <label>Tell us what's wrong...</label>
+                    <textarea name="msg" style="height: 30px;" placeholder=""></textarea>
+                </div>
+                <button class="ui" id="quote" tabindex="0">
+                    <i class="comments icon"></i>
+                    Get In Touch
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <i class="car icon"></i>
+            <h2>Quality</h2>
+            <p>This is the card description and information.</p>
+        </div>
+        <div class="card">
+            <i class="wrench icon"></i>
+            <h2>Professional</h2>
+            <p>This is the card description and information.</p>
+        </div>
+        <div class="card">
+            <i class="handshake icon"></i>
+            <h2>Affordable</h2>
+            <p>This is the card description and information.</p>
+        </div>
+    </div>
+
+    <div class="color-divider">
+        <h2>Any and all things Subaru...and more!</h2>
+        <a class="div-button" href="#">See More</a>
+    </div>
+
+    <div class="mobile-form">
+        <form class="ui form" action="/quotes/new" method="POST" style="margin: 10px 0; text-align: center;">
+            <h2 class="ui header" style="margin-bottom: 5px;">Get A Quote</h2>
+            <p style="margin-top: 0;">Get in touch with us about what you might need!</p>
+            <div class="field">
+                <label>Name</label>
+                <div class="two fields">
+                  <div class="field">
+                    <input type="text" name="first-name" placeholder="First Name">
+                  </div>
+                  <div class="field">
+                    <input type="text" name="last-name" placeholder="Last Name">
+                  </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="joe@schmoe.com">
+            </div>
+            <div class="field">
+                <label>Phone</label>
+                <input type="tel" name="tel" placeholder="6151234567">
+            </div>
+            <div class="field">
+                <label>Tell us what's wrong...</label>
+                <textarea name="msg" style="height: 30px;" placeholder=""></textarea>
+            </div>
+            <button class="ui" id="quote" tabindex="0">
+                <i class="comments icon"></i>
+                Get In Touch
+            </button>
+        </form>
+    </div>
+</body>
+<script>
+    const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+<% if(locals.message.form){ %>
+Toast.fire({
+  icon: 'success',
+  title: 'Request Submitted'
+})
+<% } %>
+</script>
+</html>

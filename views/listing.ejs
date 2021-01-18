@@ -1,7 +1,7 @@
 <%- include("./partials/header.ejs") -%>
 <body>
    <div class="listing">
-      <h1><%-listing.year-%> <%-listing.model-%></h1>
+      <h1><%-listing.year-%> <%-listing.model-%> <%-listing.title-%></h1>
       <div class="main-gallery">
          <% listing.images.forEach(image => { %>
 
@@ -12,7 +12,8 @@
          <% }) %>
       </div>
       <div class="info">
-         <p>$<%-listing.price-%> - </p>
+         <p>$<%-listing.price-%> &bull; </p>
+         <p><%-listing.miles-%> miles &bull; </p>
          <p id="timestamp"><%-listing.createdAt-%></p>
       </div>
       <div class="description">

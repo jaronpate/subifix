@@ -1,0 +1,145 @@
+.jumbo{
+    padding: 20px 15px;
+    min-height: 500px;
+    width: 100%;
+    /* background-image: url("/assets/jumbo.jpg"); */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url("/assets/jumbo.jpg");
+    background-blend-mode: saturation;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.jumbo img {
+    width: 40%;
+}
+
+.jumbo > .head{
+    color: white;
+    max-width: 700px;
+}
+
+.head{
+    width: 50%;
+}
+
+.head h3{
+    margin-top: 10px;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.35);
+}
+
+.jumbo > .form{
+    background-color: #fcfcff;
+    padding: 15px 20px;
+}
+
+.jumbo .action{
+    color: white;
+    background-color: #417fe5;
+    font-weight: bold;
+    border-radius: 9999px;
+    padding: 8px 20px;
+    display: inline-block;
+    transition: all 0.1s;
+}
+
+.jumbo .action:hover{
+    cursor: pointer;
+    background-color: #4180e5ec;
+    transform: translate(2px, -2px);
+}
+
+#quote{
+    color: white;
+    background-color: #417fe5;
+    font-weight: bold;
+    border-radius: 9999px;
+    padding: 12px 20px;
+    transition: all 0.1s;
+    border: none;
+}
+
+#quote:hover{
+    background-color: #4180e5d8;
+}
+
+.mobile-form{
+    width: 90%;
+    margin: 40px auto;
+    display: none;
+}
+
+.color-divider{
+    background: linear-gradient(45deg, #417ee5 10%, #104196 80%);
+    min-height: 150px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 50px;
+}
+
+.div-button{
+    color: black;
+    background-color: #f7faff;
+    font-weight: bold;
+    border-radius: 9999px;
+    padding: 10px 20px;
+    transition: all 0.1s;
+    border: none;
+}
+
+.cards{
+    margin: 50px 10%;
+    display: flex;
+}
+
+.card{
+    text-align: center;
+    margin: 40px;
+}
+
+.card i{
+    font-size: 4em;
+}
+
+.card h2{
+    margin: 2px;
+    color: #417fe5;
+}
+
+@media only screen and (max-width: 1024px) {
+    .jumbo{
+        flex-direction: column;
+    }
+    .jumbo .head{
+        text-align: center;
+        margin-bottom: 25px;
+        width: 90%;
+    }
+    .jumbo .form{
+        display: none;
+    }
+    .mobile-form{
+        display: block;
+    }
+    .head img{
+        width: 70%;
+    }
+    .jumbo .action{
+        padding: 12px 25px;
+        font-size: 1.1em;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .cards{
+        flex-direction: column;
+    }
+    .head img{
+        width: 90%;
+    }
+}
