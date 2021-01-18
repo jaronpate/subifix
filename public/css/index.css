@@ -95,6 +95,8 @@
 .cards{
     margin: 50px 10%;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card{
