@@ -24,14 +24,15 @@ const s3 = new AWS.S3({
    secretAccessKey: process.env.aws_secret
 });
 
-const uploadFile = (file, ext) => {
+const uploadFile = (file, ext, type) => {
    return new Promise((resolve, reject) => {
       // Setting up S3 upload parameters
       const params = {
          Bucket: process.env.bucket_name,
          Key: Math.random().toString(36).substr(2, 9) + ext,
          Body: file,
-         ACL: 'public-read'
+         ACL: 'public-read',
+         ContentType: type
       };
 
       // Uploading files to the bucket
@@ -164,11 +165,11 @@ app.post('/dashboard/listings/new', loggedIn, isAdmin, async (req, res) => {
       if(req.files.images.length > 1){
          for(image of req.files.images){
             if(!image.mimetype.startsWith('image')){return}
-            let img = await uploadFile(image.data, path.extname(image.name));
+            let img = await uploadFile(image.data, path.extname(image.name), image.mimetype);
             images.push(img);
          }
       } else {
-         let img = await uploadFile(req.files.images.data, path.extname(req.files.images.name));
+         let img = await uploadFile(req.files.images.data, path.extname(req.files.images.name), req.files.images.mimetype);
          images.push(img);
       }
    }
