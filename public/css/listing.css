@@ -40,6 +40,13 @@ body{
 
 @media only screen and (max-width: 650px) {
    .listing{
-      width: 95%;
+      width: 100%;
+      margin: 0;
+      padding: 10px;
+   }
+   #userMenu{
+      padding-right: 0;
    }
  }
+
+ 

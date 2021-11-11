@@ -1,114 +1,222 @@
 <%- include("../partials/header.ejs") -%>
-<%- include("../partials/dashboard.ejs") -%>
- 
-<div class="dashboard">
+   <%- include("../partials/dashboard.ejs") -%>
 
-   <div class="control">
-      <table class="ui table">
-         <thead>
-           <tr>
-             <th>Year</th>
-             <th>Model</th>
-             <th>Price</th>
-             <th>Created</th>
-             <th>Description</th>
-             <th>Actions</th>
-           </tr>
-         </thead>
-         <tbody>
-            <% listings.forEach(listing => { %>
-           <tr>
-             <td class="one wide"><%- listing.year -%></td>
-             <td class="two wide"><%- listing.model -%></td>
-             <td class="one wide"><%- listing.price -%></td>
-             <td class="two wide"><span id="timestamp"><%- listing.createdAt -%></span></td>
-             <td class="six wide" style="word-break: break-all;"><%- listing.description.substring(0,40) + '...' -%></td>
-             <td class="four wide">
-               <a href="/dashboard/listings/<%- listing._id -%>" class="ui button" style="margin-bottom: 5px;">
-                  Edit
-               </a>
-               <form action="/dashboard/listings/<%-listing._id-%>?_method=DELETE" method="POST" style="display: inline;">
-                  <button class="ui negative button" type="submit">Delete</button>
-               </form>
-             </td>
-           </tr>
-           <% }) %>
-         </tbody>
-       </table>
-   </div>
-
-   <div class="control" id="control">
-      <form class="ui form" style="margin-bottom: 0;" enctype="multipart/form-data" action="/dashboard/listings/new" method="POST">
-         <h4 class="ui dividing header">Listing Info</h4>
-         <div class="fields">
-            <div class="three wide field">
-               <label>Year</label>
-               <input type="number" name="year" placeholder="Year">
-            </div>
-            <div class="four wide field">
-               <label>Make/Model</label>
-               <input type="text" name="model" placeholder="Model">
-            </div>
-            <div class="eight wide field">
-               <label>Title</label>
-               <input type="text" name="title" placeholder="Title">
-            </div>
-            <div class="three wide field">
-               <label>Price</label>
-               <input type="number" name="price" placeholder="Price">
-            </div>
+      <div class="dashboard">
+         <div class="control">
+            <h4 class="ui dividing header">Current Listings</h4>
+            <table class="ui celled table">
+               <thead>
+                  <tr>
+                     <th>Year</th>
+                     <th>Model</th>
+                     <th>Price</th>
+                     <th>Created</th>
+                     <th>Description</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <% listings.forEach(listing=> { %>
+                     <% if(listing.sold){return;} %>
+                     <tr>
+                        <td class="one wide">
+                           <%- listing.year -%>
+                        </td>
+                        <td class="two wide">
+                           <%- listing.model -%>
+                        </td>
+                        <td class="one wide">
+                           <%- listing.price -%>
+                        </td>
+                        <td class="two wide"><span id="timestamp">
+                              <%- listing.createdAt -%>
+                           </span></td>
+                        <td class="five wide" style="word-break: break-all;">
+                           <%- listing.description.substring(0,40) + '...' -%>
+                        </td>
+                        <td class="five wide">
+                           <a href="/dashboard/listings/<%- listing._id -%>" class="ui button"
+                              style="margin-bottom: 5px;">
+                              Edit
+                           </a>
+                           <form action="/dashboard/listings/<%-listing._id-%>?_method=DELETE" method="POST"
+                              style="display: inline;">
+                              <button class="ui negative button" type="submit">Delete</button>
+                           </form>
+                           <button class="ui positive button" onclick="soldModal('<%-listing._id-%>')">Sold</button>
+                        </td>
+                     </tr>
+                     <% }) %>
+               </tbody>
+            </table>
+            
+            <h4 class="ui dividing header">Past Listings</h4>
+            <table class="ui celled table">
+               <thead>
+                  <tr>
+                     <th>Year</th>
+                     <th>Model</th>
+                     <th>Sale Total</th>
+                     <th>Sale Date</th>
+                     <th>Description</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <% listings.forEach(listing=> { %>
+                     <% if(!listing.sold){return;} %>
+                     <tr>
+                        <td class="one wide">
+                           <%- listing.year -%>
+                        </td>
+                        <td class="two wide">
+                           <%- listing.model -%>
+                        </td>
+                        <td class="two wide">
+                           <%- listing.sale.total -%>
+                        </td>
+                        <td class="two wide"><span id="timestamp">
+                              <%- listing.sale.date -%>
+                           </span></td>
+                        <td class="four wide" style="word-break: break-all;">
+                           <%- listing.description.substring(0,40) + '...' -%>
+                        </td>
+                        <td class="five wide">
+                           <a href="/dashboard/listings/<%- listing._id -%>" class="ui button"
+                              style="margin-bottom: 5px;">
+                              Edit
+                           </a>
+                           <form action="/dashboard/listings/<%-listing._id-%>?_method=DELETE" method="POST"
+                              style="display: inline;">
+                              <button class="ui negative button" type="submit">Delete</button>
+                           </form>
+                           <button class="ui yellow button">Archive</button>
+                        </td>
+                     </tr>
+                     <% }) %>
+               </tbody>
+            </table>
          </div>
-         <div class="fields">
-            <div class="four wide field">
-               <label>Mileage</label>
-               <input type="number" name="miles" placeholder="100000">
-            </div>
-            <div class="four wide field">
-               <label>Engine</label>
-               <input type="text" name="engine" placeholder="Engine">
-            </div>
-            <div class="four wide field">
-               <label>Transmission</label>
-               <input type="text" name="trans" placeholder="Transmission">
-            </div>
-            <div class="four wide field">
-               <label>Color</label>
-               <input type="text" name="color" placeholder="Color">
-            </div>
-         </div>
-         <div class="field">
-         <label>Description</label>
-         <textarea type="text" name="description" placeholder="Description" style="min-height: 100px;"></textarea>
-         </div>
-         <h4 class="ui dividing header">Images</h4>
-         <input type="file" name="images" id="file-input" multiple style="margin-bottom: 15px;">
-         
-         <button class="ui positive button" type="submit">Create</button>
-      </form>
-   </div>
-</div>
 
-<style>
-   .dashboard{
-      /* margin-left: 250px; */
-      padding: 15px;
-      width: 90%;
-      margin: auto;
-   }
-   .control{
-      padding: 15px;
-      background-color: white;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.8);
-   }
-</style>
+         <div class="control" id="control">
+            <form class="ui form" style="margin-bottom: 0;" enctype="multipart/form-data"
+               action="/dashboard/listings/new" method="POST">
+               <h4 class="ui dividing header">Listing Info</h4>
+               <div class="fields">
+                  <div class="three wide field">
+                     <label>Year</label>
+                     <input type="number" name="year" placeholder="Year">
+                  </div>
+                  <div class="four wide field">
+                     <label>Make/Model</label>
+                     <input type="text" name="model" placeholder="Model">
+                  </div>
+                  <div class="eight wide field">
+                     <label>Title</label>
+                     <input type="text" name="title" placeholder="Title">
+                  </div>
+                  <div class="three wide field">
+                     <label>Price</label>
+                     <input type="number" name="price" placeholder="Price">
+                  </div>
+               </div>
+               <div class="fields">
+                  <div class="four wide field">
+                     <label>Mileage</label>
+                     <input type="number" name="miles" placeholder="100000">
+                  </div>
+                  <div class="four wide field">
+                     <label>Engine</label>
+                     <input type="text" name="engine" placeholder="Engine">
+                  </div>
+                  <div class="four wide field">
+                     <label>Transmission</label>
+                     <div class="inline fields">
+                        <div class="field">
+                           <div class="ui radio checkbox">
+                              <input type="radio" name="trans" id="transAuto" value="Automatic" checked="checked">
+                              <label for="transAuto">Automatic</label>
+                           </div>
+                        </div>
+                        <div class="field">
+                           <div class="ui radio checkbox">
+                              <input type="radio" name="trans" id="transManual" value="Manual">
+                              <label for="transManual">Manual</label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="four wide field">
+                     <label>Color</label>
+                     <input type="text" name="color" placeholder="Color">
+                  </div>
+               </div>
+               <div class="field">
+                  <label>Description</label>
+                  <textarea type="text" name="description" placeholder="Description"
+                     style="min-height: 100px;"></textarea>
+               </div>
+               <h4 class="ui dividing header">Images</h4>
+               <input type="file" name="images" id="file-input" multiple style="margin-bottom: 15px;">
 
-<script>
-   document.querySelectorAll("#timestamp").forEach(el => {
-      let time = new Date(el.innerHTML);
-      el.innerHTML = time.toLocaleString()
-   })
-</script>
-</body>
-</html>
+               <button class="ui positive button" type="submit">Create</button>
+            </form>
+         </div>
+      </div>
+
+      <div class="ui mini modal">
+         <div class="header">Mark Listing as Sold</div>
+         <div class="content">
+            <form class="ui form" id="soldForm" action="" method="POST" style="display: inline;">
+               <input style="display: none;" type="date" name="sale[date]" value="<%-new Date().toLocaleDateString()-%>">
+               <div class="field">
+                  <label>Sale Amount</label>
+                  <div class="ui right labeled input">
+                     <label for="saleTotal" class="ui label">$</label>
+                     <input type="number" name="sale[total]" placeholder="Total" id="saleTotal">
+                  </div>
+               </div>
+            </form>
+         </div>
+         <div class="actions">
+            <button class="ui approve positive button">Sold</button>
+            <button class="ui cancel negative button">Cancel</button>
+         </div>
+      </div>
+
+      <style>
+         .dashboard {
+            /* margin-left: 250px; */
+            padding: 15px;
+            width: 90%;
+            margin: auto;
+         }
+
+         .control {
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.8);
+         }
+      </style>
+
+      <script>
+         document.querySelectorAll("#timestamp").forEach(el => {
+            let time = new Date(el.innerHTML);
+            el.innerHTML = time.toLocaleString()
+         })
+         function soldModal(id) {
+            $("#soldForm").attr('action', `/dashboard/listings/${id}/sold`)
+            $('.ui.modal')
+               .modal({
+                  onApprove : function() {
+                     $("#soldForm").submit();
+                  }
+               })
+               .modal('show');
+         }
+      </script>
+      </body>
+
+      </html>

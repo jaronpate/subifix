@@ -32,10 +32,25 @@
                <label>Engine</label>
                <input type="text" name="engine" placeholder="Engine" value="<%-listing.engine-%>">
             </div>
+
             <div class="four wide field">
                <label>Transmission</label>
-               <input type="text" name="trans" placeholder="Transmission" value="<%-listing.trans-%>">
+               <div class="inline fields">
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="trans" id="transAuto" value="Automatic" <%-listing.trans === 'Automatic' ? 'checked' : ''-%>>
+                      <label for="transAuto">Automatic</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="trans" id="transManual" value="Manual" <%-listing.trans === 'Manual' ? 'checked' : ''-%>>
+                      <label for="transManual">Manual</label>
+                    </div>
+                  </div>
+                </div>
             </div>
+
             <div class="four wide field">
                <label>Color</label>
                <input type="text" name="color" placeholder="Color" value="<%-listing.color-%>">
@@ -51,14 +66,34 @@
          <button class="ui negative button" type="submit">Delete</button>
       </form>
       <h4 class="ui dividing header">Images</h4>
-      <div class="main-gallery">
+      <div class="ui middle aligned divided  list">
+         
+         <% let i = 0 %>
          <% listing.images.forEach(image => { %>
-
-         <div class="gallery-cell">
-            <img src="<%-image.Location-%>" alt="">
-         </div>
-
+            <div class="item">
+              <div class="right floated content">
+                <!-- <div class="ui basic button">Make Thumbnail</div> -->
+                <!-- <div class="ui red button">Remove</div> -->
+               <% if(i !== 0){ %>
+               <form action="/dashboard/listings/<%-listing._id-%>/image/thumbnail?_method=PUT" method="POST" style="display: inline">
+                  <input style="display: none;" type="number" name="key" value="<%-i-%>">
+                  <button class="ui icon button" type="submit"><i class="icon image outline"></i></button>
+               </form>
+               <% } %>
+               <form action="/dashboard/listings/<%-listing._id-%>/image/remove?_method=PUT" method="POST" style="display: inline">
+                  <input style="display: none;" type="number" name="key" value="<%-i-%>">
+                  <button class="ui red icon button"><i class="icon minus square"></i></button>
+               </form>
+              </div>
+              <img class="ui avatar image" src="<%-image.Location-%>" style="border-radius: 0; width: unset;">
+              <div class="content">
+                <%-image.key-%>
+              </div>
+            </div>
+            <% i++ %>
          <% }) %>
+       </div>
+
       </div>
    </div>
 </div>
@@ -93,16 +128,6 @@
    document.querySelectorAll("#timestamp").forEach(el => {
       let time = new Date(el.innerHTML);
       el.innerHTML = time.toLocaleString()
-   })
-   var flkty = new Flickity( '.main-gallery', {
-      cellAlign: 'center',
-      pauseAutoPlayOnHover: false,
-      prevNextButtons: false,
-      imagesLoaded: true,
-      // wrapAround: true,
-      draggable: true,
-      autoPlay: 5000,
-      contain: true
    });
 </script>
 </body>

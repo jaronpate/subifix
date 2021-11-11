@@ -8,7 +8,7 @@
       <!-- <a class="item" href="/listings">Contact Us</a> -->
       <div class="right menu">
          <% if(typeof user !== ("undefined")){ %>
-            <div class="item" style="background: none !important;">
+            <div class="item" style="background: none !important;" id="userMenu">
                <div class="ui dropdown" id="user-dropdown">
                   <span><%-user.username ? user.username : user.email-%></span>
                   <i class="dropdown icon" style="margin-left: 5px !important; vertical-align: middle;"></i>

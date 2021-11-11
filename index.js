@@ -64,7 +64,6 @@ mongoose.connect(process.env.db, { useNewUrlParser: true, useUnifiedTopology: tr
    console.log(`Loaded database.`)
 })
 
-
 // ===========
 // PASSPORT
 // ===========
@@ -79,7 +78,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
+ 
 app.get('/', (req, res) => {
    res.render('index', {css: "index", title: "Home", user: req.user ? req.user : undefined});
 });
@@ -130,6 +129,21 @@ app.put('/dashboard/listings/:id', loggedIn, isAdmin, (req, res) => {
    })
 });
 
+app.put('/dashboard/listings/:id/image/thumbnail', loggedIn, isAdmin, (req, res) => {
+   Listing.findById(req.params.id, (err, listing) => {
+      if(err){return res.redirect('/')}
+      let thumb = listing.images.splice(req.body.key, 1);
+      listing.images.unshift(thumb[0]);
+      listing.save().then(newListing => {
+         res.redirect(`/dashboard/listings/${newListing._id}`);
+      })
+   });
+});
+
+app.put('/dashboard/listings/:id/image/remove', loggedIn, isAdmin, (req, res) => {
+   // Remove image
+});
+
 app.delete('/dashboard/listings/:id', loggedIn, isAdmin, (req, res) => {
    Listing.findByIdAndRemove(req.params.id, (err, deletedListing) => {
       if(err){return res.redirect('/')}
@@ -141,6 +155,18 @@ app.delete('/dashboard/listings/:id', loggedIn, isAdmin, (req, res) => {
          }, (err, data) => {});
       });
    });
+});
+
+app.post('/dashboard/listings/:id/sold', loggedIn, isAdmin, (req, res) => {
+   req.body.sale.date = new Date();
+   Listing.findByIdAndUpdate(req.params.id, {
+      sold: true,
+      sale: req.body.sale
+   }, (err, newListing) => {
+      if(err){return res.redirect('/')}
+      console.log(newListing)
+      res.redirect(`/dashboard/listings`);
+   })
 });
 
 app.get('/dashboard/listings', loggedIn, isAdmin, (req, res) => {
@@ -240,3 +266,16 @@ function isAdmin(req, res, next){
    if(req.user.admin){return next();}
    res.redirect('/');
 }
+
+/**
+ * Error Handler.
+ */
+ if (process.env.NODE_ENV === 'development') {
+   // only use in development
+   app.use(errorHandler());
+ } else {
+   app.use((err, req, res, next) => {
+     console.error(err);
+     res.status(500).send('Server Error');
+   });
+ }

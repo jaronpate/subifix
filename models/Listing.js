@@ -10,7 +10,9 @@ const listingSchema = new mongoose.Schema({
    engine: String,
    trans: String,
    color: String,
-   images: Array
+   images: Array,
+   sold: {type: Boolean, default: false},
+   sale: Object
 }, { timestamps: true });
 
 const Listing = mongoose.model('Listing', listingSchema);

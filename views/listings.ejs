@@ -6,10 +6,17 @@
             <p style="text-align: center; font-weight: bold;">Sorry :( there aren't any listings right now. Check back soon!</p>
          <% } %>
          <% listings.forEach(listing => { %>
+            <% if(listing.sold){return;} %>
 
          <div class="item">
            <a href="/listings/<%-listing._id-%>" class="image">
-             <img src="<%-listing.images[0].Location-%>">
+              <% if(listing.images[0]){ %>
+                  <img src="<%-listing.images[0].Location-%>">
+              <% } else { %>
+                  <div class="ui placeholder">
+                     <div class="image"></div>
+                  </div>
+              <% } %>
            </a>
            <div class="content">
              <a class="header" href="/listings/<%-listing._id-%>"><%-`${listing.year} ${listing.model} ${listing.title}`-%></a>

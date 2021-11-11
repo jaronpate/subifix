@@ -3,7 +3,8 @@
   "main": "index.js",
   "author": "Jaron",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "nodemon": "nodemon index.js"
   },
   "dependencies": {
     "aws-sdk": "^2.828.0",
