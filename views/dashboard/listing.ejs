@@ -76,12 +76,12 @@
                 <!-- <div class="ui red button">Remove</div> -->
                <% if(i !== 0){ %>
                <form action="/dashboard/listings/<%-listing._id-%>/image/thumbnail?_method=PUT" method="POST" style="display: inline">
-                  <input style="display: none;" type="number" name="key" value="<%-i-%>">
+                  <input type="hidden" name="key" value="<%-i-%>">
                   <button class="ui icon button" type="submit"><i class="icon image outline"></i></button>
                </form>
                <% } %>
                <form action="/dashboard/listings/<%-listing._id-%>/image/remove?_method=PUT" method="POST" style="display: inline">
-                  <input style="display: none;" type="number" name="key" value="<%-i-%>">
+                  <input type="hidden" name="key" value="<%-i-%>">
                   <button class="ui red icon button"><i class="icon minus square"></i></button>
                </form>
               </div>

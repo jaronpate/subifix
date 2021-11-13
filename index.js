@@ -13,6 +13,9 @@ const express = require('express'),
       fileupload = require('express-fileupload'),
       path = require('path');
 
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
+
 dotenv.config();
 mongoose.set('useFindAndModify', false);
 
@@ -80,7 +83,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
  
 app.get('/', (req, res) => {
-   res.render('index', {css: "index", title: "Home", user: req.user ? req.user : undefined});
+   res.render('index', {css: "index", title: "Home", user: req.user ? req.user : undefined, siteKey: process.env.captchaSiteKey});
 });
 
 app.get('/listings', (req, res) => {
@@ -176,14 +179,27 @@ app.get('/dashboard/listings', loggedIn, isAdmin, (req, res) => {
    });
 });
 
-app.post("/quotes/new", (req, res) => {
-   Quote.create(req.body, (err, newQuote) => {
-      if(err){return res.redirect('/')}
-      console.log(newQuote)
-      req.flash("form", "success")
-      res.redirect('/')
-   })
-})
+app.post("/quotes/new", async (req, res) => {   
+   const params = new URLSearchParams();
+   params.append('secret', process.env.captchaSecret);
+   params.append('response', req.body["g-recaptcha-response"]);
+
+   const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST', 
+      body: params,
+   });
+   const data = await response.json();
+
+   if(data.success){
+      Quote.create(req.body, (err, newQuote) => {
+         if(err){return res.redirect('/')}
+         req.flash("form", "success")
+         res.redirect('/')
+      })
+   } else {
+      res.redirect('/');
+   }
+});
 
 app.post('/dashboard/listings/new', loggedIn, isAdmin, async (req, res) => {
    let images = [];

@@ -8,17 +8,17 @@
             <a class="action" href="/listings">See Listings</a>
         </div>
         <div class="form">
-            <form class="ui form" action="/quotes/new" method="POST" style="margin: 10px 0;">
-                <h2 class="ui header" style="margin-bottom: 5px;">Get A Quote</h2>
+            <form class="ui form" id="form1" action="/quotes/new" method="POST" style="margin: 10px 0;">
+                <h2 class="ui header" style="margin-bottom: 5px; margin-top: 0.8rem;">Get A Quote</h2>
                 <p style="margin-top: 0;">Get in touch with us about what you might need!</p>
                 <div class="field">
                     <label>Name</label>
                     <div class="two fields">
                       <div class="field">
-                        <input type="text" name="firstname" placeholder="First Name">
+                        <input type="text" name="firstName" placeholder="First Name">
                       </div>
                       <div class="field">
-                        <input type="text" name="lastname" placeholder="Last Name">
+                        <input type="text" name="lastName" placeholder="Last Name">
                       </div>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     <label>Tell us what's wrong...</label>
                     <textarea name="msg" style="height: 30px;" placeholder=""></textarea>
                 </div>
-                <button class="ui" id="quote" tabindex="0">
+                <button class="ui g-recaptcha" id="quote" tabindex="0" data-sitekey="<%-siteKey-%>" data-size="invisible" data-callback="onSubmit">
                     <i class="comments icon"></i>
                     Get In Touch
                 </button>
@@ -66,17 +66,17 @@
     </div>
 
     <div class="mobile-form">
-        <form class="ui form" action="/quotes/new" method="POST" style="margin: 10px 0; text-align: center;">
-            <h2 class="ui header" style="margin-bottom: 5px;">Get A Quote</h2>
+        <form class="ui form" id="form2" action="/quotes/new" method="POST" style="margin: 10px 0; text-align: center;">
+            <h2 class="ui header" style="margin-bottom: 5px; margin-top: 0.8rem;">Get A Quote</h2>
             <p style="margin-top: 0;">Get in touch with us about what you might need!</p>
             <div class="field">
                 <label>Name</label>
                 <div class="two fields">
                   <div class="field">
-                    <input type="text" name="first-name" placeholder="First Name">
+                    <input type="text" name="firstName" placeholder="First Name">
                   </div>
                   <div class="field">
-                    <input type="text" name="last-name" placeholder="Last Name">
+                    <input type="text" name="lastName" placeholder="Last Name">
                   </div>
                 </div>
             </div>
@@ -92,25 +92,35 @@
                 <label>Tell us what's wrong...</label>
                 <textarea name="msg" style="height: 30px;" placeholder=""></textarea>
             </div>
-            <button class="ui" id="quote" tabindex="0">
+            <button class="ui g-recaptcha" id="quote" tabindex="0" data-sitekey="<%-siteKey-%>" data-size="invisible" data-callback="onSubmit">
                 <i class="comments icon"></i>
                 Get In Touch
             </button>
         </form>
     </div>
 </body>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
+    function onSubmit(token) {
+        console.log(token)
+        // console.log(window.innerWidth)
+        if(window.innerWidth > 1024){
+            document.getElementById('form1').submit();
+        } else {
+            document.getElementById('form2').submit();
+        }
+    }
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
 <% if(locals.message.form){ %>
 Toast.fire({
   icon: 'success',

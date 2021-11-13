@@ -82,14 +82,15 @@
                            <%- listing.description.substring(0,40) + '...' -%>
                         </td>
                         <td class="five wide">
-                           <a href="/dashboard/listings/<%- listing._id -%>" class="ui button"
+                           <!-- <a href="/dashboard/listings/<%- listing._id -%>" class="ui button"
                               style="margin-bottom: 5px;">
                               Edit
-                           </a>
+                           </a> -->
                            <form action="/dashboard/listings/<%-listing._id-%>?_method=DELETE" method="POST"
                               style="display: inline;">
                               <button class="ui negative button" type="submit">Delete</button>
                            </form>
+                           <button class="ui primary button">List</button>
                            <button class="ui yellow button">Archive</button>
                         </td>
                      </tr>
@@ -135,13 +136,13 @@
                         <div class="field">
                            <div class="ui radio checkbox">
                               <input type="radio" name="trans" id="transAuto" value="Automatic" checked="checked">
-                              <label for="transAuto">Automatic</label>
+                              <label for="transAuto" style="cursor: pointer;">Automatic</label>
                            </div>
                         </div>
                         <div class="field">
                            <div class="ui radio checkbox">
                               <input type="radio" name="trans" id="transManual" value="Manual">
-                              <label for="transManual">Manual</label>
+                              <label for="transManual" style="cursor: pointer;">Manual</label>
                            </div>
                         </div>
                      </div>
@@ -168,7 +169,7 @@
          <div class="header">Mark Listing as Sold</div>
          <div class="content">
             <form class="ui form" id="soldForm" action="" method="POST" style="display: inline;">
-               <input style="display: none;" type="date" name="sale[date]" value="<%-new Date().toLocaleDateString()-%>">
+               <input type="hidden" name="sale[date]" value="<%-new Date()-%>">
                <div class="field">
                   <label>Sale Amount</label>
                   <div class="ui right labeled input">
