@@ -1,0 +1,2 @@
+public/lib/** linguist-vendored
+*.ejs linguist-language=JavaScript
