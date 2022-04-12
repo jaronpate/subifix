@@ -251,7 +251,7 @@ app.post('/register', (req, res) => {
          req.flash("error", err.message)
          return res.redirect('/register')
       }
-      User.authenticate(req.body.username, req.body.password, function(err, result) {
+      user.authenticate(req.body.password, function(err, result) {
         if (err) {console.log(err)}
         if (req.session.returnTo) {return req.redirect(req.session.returnTo)}
         else {res.redirect('/')}
